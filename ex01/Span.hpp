@@ -9,7 +9,7 @@
 class Span
 {
 	private:
-		std::vector<unsigned int> _array;
+		std::vector<int>	_array;
 		unsigned int		_maxSize;
 	public:
 		Span();
@@ -35,8 +35,17 @@ class Span
 			}
 	};
 
-	void addNumber(unsigned int n);
+	void addNumber(int n);
 	unsigned int shortestSpan();
 	unsigned int longestSpan();
-	void addRange(std::vector<unsigned int>::iterator start, std::vector<unsigned int>::iterator end);
+
+	template <typename IT>
+	void addRange(IT start, IT end)
+	{
+		size_t range_size = std::distance(start, end);
+
+		if (_array.size() + range_size > _maxSize)
+			throw SpanFullException();
+		_array.insert(_array.end(), start, end);
+	}
 };
